@@ -13,42 +13,30 @@ struct ExerciseView: View {
         Exercise.exercises[index]
     }
     let index: Int
+    let interval: TimeInterval = 30
+    
     var body: some View {
-        VStack {
-            HeaderView(exerciseName: exercise.exerciseName)
-            if let url = Bundle.main.url(forResource:exercise.videoName, withExtension: "mp4") {
-                let avplayer = AVPlayer(url: url)
-                VideoPlayer(player: avplayer)
-                    .onAppear {
-                        NotificationCenter
-                            .default
-                            .addObserver(
-                                forName: .AVPlayerItemDidPlayToEndTime,
-                                object: avplayer.currentItem,
-                                queue: .main
-                            ) { _ in
-                                avplayer.seek(to: .zero)
-                                debugPrint("Reached end of video")
-                                avplayer.play()
-                            }
-                    avplayer.play()
-                }
-                    .onDisappear {
-                        avplayer.pause()
-                    }
-                    .frame(height: 300)
-            } else {
-                Text("Couldn't find video \(exercise.videoName).mp4")
-                    .foregroundColor(.red)
+        GeometryReader { geometry in
+            VStack {
+                HeaderView(exerciseName: exercise.exerciseName)
+                    .padding(.bottom)
+                VideoPlayerView(videoName: exercise.videoName)
+                    .frame(height: geometry.size.height * 0.45)
+                Text(Date().addingTimeInterval(interval), style: .timer)
+                    .font(.system(size: geometry.size.height * 0.07))
+                Button("Start/Next") {}
+                    .font(.title3)
+                    .padding()
+                    .buttonStyle(.borderedProminent)
+                RatingView().padding()
+                Spacer()
+                Button("History") {}
+                    .buttonStyle(.bordered)
+                    .padding(.bottom)
             }
-            Text("Timer")
-            Text("Start/Done Button")
-            Text("Rating")
-            Text("History Button")
         }
     }
 }
-
 #Preview {
     ExerciseView(index: 0)
 }
