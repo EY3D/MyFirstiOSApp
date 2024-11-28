@@ -16,8 +16,8 @@ struct ContentView: View {
                     ExerciseView(index: i)
                 }
                 Text("Exercise 2")
-                
-            }.tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+            }
+            .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
         }
     }
 }

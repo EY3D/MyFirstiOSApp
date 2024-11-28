@@ -8,30 +8,29 @@
 import SwiftUI
 
 struct HistoryView: View {
-    let today = Date()
-    let yesterday = Date().addingTimeInterval(-86400)
-    let exercises1 = ["Squat", "Step Up", "Burpee", "Sun Salute"]
-    let exercises2 = ["Squat", "Step Up", "Burpee"]
+    let history = HistoryStore()
     var body: some View {
-        VStack{
-            Text("History")
-                .font(.title)
-                .padding()
-            Form{
-                Section(
-                    header:
-                        Text(today.formatted(.dateTime.month().day()))
-                        .font(.headline)) {
-                    // Section content
-                            Text("Hello1")
+        ZStack(alignment: .topTrailing) {
+            VStack{
+                Text("History")
+                    .font(.title)
+                    .padding()
+                Form{
+                    ForEach(history.exerciseDays) {ed in
+                        Section(
+                            header: Text(ed.date.formatted(.dateTime.day().month().year())))
+                        {
+                            ForEach(ed.exercises, id:\.self) {exercise in
+                                Text(exercise)
+                            }
+                        }
+                    }
                 }
-                Section(
-                    header:
-                        Text(yesterday.formatted(.dateTime.month().day()))
-                        .font(.headline)) {
-                            Text("Hello2")
-                            //section conent
-                }
+            }
+            Button(action: {}) {
+                Image(systemName: "x.circle")
+                    .font(.title)
+                    .padding(.trailing)
             }
         }
     }
