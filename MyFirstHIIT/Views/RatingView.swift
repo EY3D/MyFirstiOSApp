@@ -8,17 +8,23 @@
 import SwiftUI
 
 struct RatingView: View {
+    @Binding var rating: Int
+    let maxRating: Int = 5
+    let onColor: Color = .red
+    let offColor: Color = .gray
+    
     var body: some View {
         HStack {
-            ForEach(/*@START_MENU_TOKEN@*/0 ..< 5/*@END_MENU_TOKEN@*/) { _ in
+            ForEach(0 ..< rating) { i in
                 Image(systemName: "bolt.heart")
-                    .foregroundColor(.gray)
                     .font(.largeTitle)
+                    .foregroundColor(rating > i ? onColor : offColor)
+                    .onTapGesture{ rating = i + 1 }
             }
         }//.border(Color.red)
     }
 }
 
 #Preview {
-    RatingView()
+    RatingView(rating:.constant(3))
 }

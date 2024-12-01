@@ -41,6 +41,6 @@ struct VideoPlayerView: View {
 }
 
 #Preview {
-    WelcomeView()
+    VideoPlayerView(videoName: "squat")
 }
 
