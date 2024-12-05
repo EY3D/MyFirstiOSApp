@@ -10,10 +10,14 @@ import AVKit
 
 struct ExerciseView: View {
     @State private var rating = 0
+    @State private var showHistory = false
+    @State private var showSuccess = false
+    @Binding var selectedTab: Int
+    
     var exercise: Exercise {
         Exercise.exercises[index]
     }
-    @Binding var selectedTab: Int
+    
     let index: Int
     let interval: TimeInterval = 30
     var lastExercise: Bool {
@@ -27,7 +31,11 @@ struct ExerciseView: View {
     
     var doneButton: some View {
         Button("Done") {
-            selectedTab = lastExercise ? 9 : selectedTab + 1
+            if lastExercise {
+                showSuccess = true
+            } else {
+                selectedTab += 1
+            }
         }.font(.title3).padding()
     }
     
@@ -43,18 +51,27 @@ struct ExerciseView: View {
                 HStack(spacing: 150) {
                     startButton
                     doneButton
+                        .sheet(isPresented: $showSuccess) {
+                            SuccessView(selectedTab: $selectedTab)
+                                .presentationDetents([.medium])
+                        }
                 }
                 RatingView(rating: $rating).padding()
                 Spacer()
-                Button("History") {}
+                Button("History") {
+                    showHistory.toggle()
+                }
 //                    .buttonStyle(.bordered)
                     .padding(.bottom)
+                    .sheet(isPresented: $showHistory){
+                        HistoryView(showHistory: $showHistory)
+                    }
             }
         }
     }
 }
 #Preview {
-    ExerciseView(selectedTab: .constant(1), index: 1)
+    ExerciseView(selectedTab: .constant(3), index: 3)
 }
 
 
