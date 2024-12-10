@@ -19,18 +19,25 @@ struct ExerciseView: View {
     }
     
     let index: Int
-    let interval: TimeInterval = 30
+    //let interval: TimeInterval = 30
+    @State private var timerDone = false
+    @State private var showTimer = false
     var lastExercise: Bool {
         index + 1 == Exercise.exercises.count
     }
     
     var startButton: some View {
-        Button("Start Exercise") {}
+        Button("Start Exercise") {
+            showTimer.toggle()
+        }
             .font(.title3).padding()
     }
     
     var doneButton: some View {
         Button("Done") {
+            timerDone = false
+            showTimer = false
+            
             if lastExercise {
                 showSuccess = true
             } else {
@@ -41,23 +48,51 @@ struct ExerciseView: View {
     
     var body: some View {
         GeometryReader { geometry in
-            VStack {
+            VStack(spacing:0) {
                 HeaderView(selectedTab: $selectedTab, titleText: exercise.exerciseName)
                     .padding(.bottom)
                 VideoPlayerView(videoName: exercise.videoName)
                     .frame(height: geometry.size.height * 0.45)
-                Text(Date().addingTimeInterval(interval), style: .timer)
-                    .font(.system(size: geometry.size.height * 0.07))
+//                if showTimer {
+//                    TimerView(timerDone: $timerDone,
+//                              size: geometry.size.height * 0.07)
+//                }
+//                HStack(spacing: 150) {
+//                    startButton
+//                    doneButton
+//                        .disabled(!timerDone)//is disabled when timer is not done
+//                        .sheet(isPresented: $showSuccess) {
+//                            SuccessView(selectedTab: $selectedTab)
+//                                .presentationDetents([.medium])
+//                        }
+//                        
+//                }
+//                RatingView(rating: $rating).padding()
+//                Spacer()
                 HStack(spacing: 150) {
                     startButton
+                        .disabled(showTimer)
+                        .buttonStyle(.borderedProminent)
                     doneButton
+                        .disabled(!timerDone) //is disabled when timer is not done
                         .sheet(isPresented: $showSuccess) {
                             SuccessView(selectedTab: $selectedTab)
-                                .presentationDetents([.medium])
+                                .presentationDetents([.medium, .large])
                         }
+                }.font(.title3)
+                    .padding()
+                
+                if showTimer {
+                    TimerView(
+                        timerDone: $timerDone,
+                        size: geometry.size.height * 0.07
+                    )
                 }
-                RatingView(rating: $rating).padding()
+                
                 Spacer()
+                
+                RatingView(rating: $rating)
+                    .padding()
                 Button("History") {
                     showHistory.toggle()
                 }

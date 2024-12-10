@@ -15,7 +15,7 @@ struct RatingView: View {
     
     var body: some View {
         HStack {
-            ForEach(0 ..< rating) { i in
+            ForEach(0 ..< maxRating) { i in
                 Image(systemName: "bolt.heart")
                     .font(.largeTitle)
                     .foregroundColor(rating > i ? onColor : offColor)
