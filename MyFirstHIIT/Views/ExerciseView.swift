@@ -14,6 +14,8 @@ struct ExerciseView: View {
     @State private var showSuccess = false
     @Binding var selectedTab: Int
     
+    @EnvironmentObject var history: HistoryStore
+    
     var exercise: Exercise {
         Exercise.exercises[index]
     }
@@ -35,6 +37,9 @@ struct ExerciseView: View {
     
     var doneButton: some View {
         Button("Done") {
+            print("Done button of exercise clicked")
+            history.addDoneExercise(Exercise.exercises[index].exerciseName)
+            
             timerDone = false
             showTimer = false
             
@@ -106,7 +111,8 @@ struct ExerciseView: View {
     }
 }
 #Preview {
-    ExerciseView(selectedTab: .constant(3), index: 3)
+    ExerciseView(selectedTab: .constant(0), index: 0)
+    .environmentObject(HistoryStore())
 }
 
 

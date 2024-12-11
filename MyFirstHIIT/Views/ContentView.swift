@@ -18,7 +18,9 @@ struct ContentView: View {
                 i in ExerciseView(selectedTab: $selectedTab, index: i)
                     .tag(i)
             }
-        }.tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+        }
+        .environmentObject(HistoryStore())
+        .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
             .animation(.default, value: selectedTab)
     }
 }
