@@ -38,6 +38,7 @@ struct ExerciseView: View {
     var doneButton: some View {
         Button("Done") {
             print("Done button of exercise clicked")
+            print("Adding \(Exercise.exercises[index].exerciseName) to history")
             history.addDoneExercise(Exercise.exercises[index].exerciseName)
             
             timerDone = false
@@ -58,22 +59,6 @@ struct ExerciseView: View {
                     .padding(.bottom)
                 VideoPlayerView(videoName: exercise.videoName)
                     .frame(height: geometry.size.height * 0.45)
-//                if showTimer {
-//                    TimerView(timerDone: $timerDone,
-//                              size: geometry.size.height * 0.07)
-//                }
-//                HStack(spacing: 150) {
-//                    startButton
-//                    doneButton
-//                        .disabled(!timerDone)//is disabled when timer is not done
-//                        .sheet(isPresented: $showSuccess) {
-//                            SuccessView(selectedTab: $selectedTab)
-//                                .presentationDetents([.medium])
-//                        }
-//                        
-//                }
-//                RatingView(rating: $rating).padding()
-//                Spacer()
                 HStack(spacing: 150) {
                     startButton
                         .disabled(showTimer)
@@ -105,6 +90,7 @@ struct ExerciseView: View {
                     .padding(.bottom)
                     .sheet(isPresented: $showHistory){
                         HistoryView(showHistory: $showHistory)
+                            .environmentObject(HistoryStore())
                     }
             }
         }

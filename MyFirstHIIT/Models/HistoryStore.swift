@@ -25,9 +25,10 @@ class HistoryStore: ObservableObject {
     func addDoneExercise(_ exerciseName: String){
         let today = Date()
         if exerciseDays.isEmpty {
+            print("HistoryStore.exerciseDays empty, adding \(exerciseName)")
             exerciseDays.append(ExerciseDay(date: today, exercises:[exerciseName]))
         } else if today == exerciseDays[0].date {
-            print("Adding \(exerciseName)")
+            print("Adding \(exerciseName) to today")
             exerciseDays[0].exercises.append(exerciseName)
         } else {
             exerciseDays.insert(ExerciseDay(date: today, exercises:[exerciseName]), at: 0)
