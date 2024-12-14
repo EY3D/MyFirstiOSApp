@@ -17,8 +17,10 @@ class HistoryStore: ObservableObject {
     @Published var exerciseDays: [ExerciseDay] = []
     
     init() {
+        print("HistoryStore initialized")
         #if DEBUG
         //createDevData()
+        
         #endif
     }
     

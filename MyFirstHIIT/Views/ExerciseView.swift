@@ -90,7 +90,6 @@ struct ExerciseView: View {
                     .padding(.bottom)
                     .sheet(isPresented: $showHistory){
                         HistoryView(showHistory: $showHistory)
-                            .environmentObject(HistoryStore())
                     }
             }
         }

@@ -55,4 +55,5 @@ struct WelcomeView: View {
 
 #Preview {
     WelcomeView(selectedTab: .constant(9))
+        .environmentObject(HistoryStore())
 }
