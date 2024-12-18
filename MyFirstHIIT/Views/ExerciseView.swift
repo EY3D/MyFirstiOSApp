@@ -9,7 +9,7 @@ import SwiftUI
 import AVKit
 
 struct ExerciseView: View {
-    @State private var rating = 0
+    
     @State private var showHistory = false
     @State private var showSuccess = false
     @Binding var selectedTab: Int
@@ -81,7 +81,7 @@ struct ExerciseView: View {
                 
                 Spacer()
                 
-                RatingView(rating: $rating)
+                RatingView(exerciseIndex: index)
                     .padding()
                 Button("History") {
                     showHistory.toggle()

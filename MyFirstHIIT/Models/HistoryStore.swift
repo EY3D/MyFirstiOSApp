@@ -40,6 +40,8 @@ class HistoryStore: ObservableObject {
             print("exerciseDays[0].date is \(exerciseDays[0].date) which is a different date from \(today)")
             exerciseDays.insert(ExerciseDay(date: today, exercises:[exerciseName]), at: 0)
         }
+        
+        print("History: ", exerciseDays)
     }
 }
 

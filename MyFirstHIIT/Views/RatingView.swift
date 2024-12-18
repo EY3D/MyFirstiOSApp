@@ -8,10 +8,22 @@
 import SwiftUI
 
 struct RatingView: View {
-    @Binding var rating: Int
+    let exerciseIndex: Int
+    @AppStorage("ratings") private var ratings = "1000"
+    @State private var rating = 0
+    
     let maxRating: Int = 5
     let onColor: Color = .red
     let offColor: Color = .gray
+    
+    func updateRating(index: Int) {
+        rating = index
+        let index = ratings.index(
+            ratings.startIndex,
+            offsetBy: exerciseIndex)
+        ratings.replaceSubrange(index...index, with: String(rating)
+        )
+    }
     
     var body: some View {
         HStack {
@@ -19,12 +31,20 @@ struct RatingView: View {
                 Image(systemName: "bolt.heart")
                     .font(.largeTitle)
                     .foregroundColor(rating > i ? onColor : offColor)
-                    .onTapGesture{ rating = i + 1 }
+                    .onTapGesture{ updateRating(index: i) }
+                    .onAppear{
+                        let index = ratings.index(
+                            ratings.startIndex,
+                            offsetBy: exerciseIndex)
+                        let character = ratings[index]
+                        rating = character.wholeNumberValue ?? 0
+                        
+                    }
             }
         }//.border(Color.red)
     }
 }
 
 #Preview {
-    RatingView(rating:.constant(3))
+    RatingView(exerciseIndex:3)
 }
